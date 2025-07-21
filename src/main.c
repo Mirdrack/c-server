@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 
 #define PORT 8080
@@ -33,6 +34,23 @@ int main() {
     if (listen(server_fd, 10) < 0) {
         perror("Listen for connections failed");
         exit(EXIT_FAILURE);
+    }
+
+    // Hadling connections
+    while (1) {
+        // Client info
+        struct sockaddr_in client_addr;
+        socklen_t client_addr_len = sizeof(client_addr);
+        int *client_fd = malloc(sizeof(int));
+
+        // Accept client connection
+        *client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_addr_len);
+        if (*client_fd < 0)
+        {
+            perror("Accept failed");
+            continue;
+        }
+
     }
 
     return 0;
