@@ -2,6 +2,7 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include "utils.h"
 
 
 #define PORT 8080
@@ -50,6 +51,10 @@ int main() {
             perror("Accept failed");
             continue;
         }
+
+        // Create new thread to handle the request
+        pthread_t thread_id;
+        pthread_create(&thread_id, NULL, handle_client, (void *)client_fd);
 
     }
 

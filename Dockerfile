@@ -4,7 +4,7 @@ FROM gcc:13 AS builder
 WORKDIR /app
 
 # Copy only what's needed to build
-# COPY include/ include/
+COPY include/ include/
 COPY src/ src/
 COPY Makefile .
 
