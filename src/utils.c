@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #define BUFFER_SIZE 104857600
 
@@ -51,13 +52,24 @@ void *handle_client(void *arg) {
 }
 
 
-void build_http_response(const char *filename,
+void build_http_response(const char *file_name,
     const char *file_ext,
-    char *reponse,
+    char *response,
     size_t *response_len) {
 
     // Build HTTP Header
     const char *mime_type = get_mime_type(file_ext);
+
+    // If file doesn't exist, response with a 404
+    int file_fd = open(file_name, O_RDONLY);
+    if (file_fd == -1) {
+        snprintf(response, BUFFER_SIZE,
+            "HTTP/1.1 404 Not Found\r\n"
+            "Content-Type: text/plain\r\n"
+            "\r\n"
+            "404 Not Found");
+        *response_len = strlen(response);
+    }
 }
 
 
