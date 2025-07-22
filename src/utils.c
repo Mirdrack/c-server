@@ -36,7 +36,7 @@ void *handle_client(void *arg) {
             // Build HTTP Response
             char *response = (char *)malloc(BUFFER_SIZE * 2 * sizeof(char));
             size_t response_len;
-            build_http_response();
+            build_http_response(file_name, file_ext, response, &response_len);
             send(client_fd, response, response_len, 0);
 
             free(response);
@@ -51,8 +51,13 @@ void *handle_client(void *arg) {
 }
 
 
-void build_http_response() {
-    printf("Mock of build respose");
+void build_http_response(const char *filename,
+    const char *file_ext,
+    char *reponse,
+    size_t *response_len) {
+
+    // Build HTTP Header
+    const char *mime_type = get_mime_type(file_ext);
 }
 
 
@@ -87,5 +92,32 @@ const char *get_file_extention(const char *filename) {
         return "";
     }
     return dot + 1;
+
+}
+
+struct supported_mime_types {
+    const char *ext;
+    const char *mime;
+};
+
+const char *get_mime_type(const char *file_ext) {
+    struct supported_mime_types mime_types[] = {
+        { "html", "text/html" },
+        { "htm",  "text/html" },
+        { "txt",  "text/plain" },
+        { "jpg",  "image/jpeg" },
+        { "jpeg", "image/jpeg" },
+        { "png",  "image/png" },
+    };
+
+    size_t num_types = sizeof(mime_types) / sizeof(mime_types[0]);
+
+    for (size_t i = 0; i < num_types; ++i) {
+        if (strcasecmp(file_ext, mime_types[i].ext) == 0) {
+            return mime_types[i].mime;
+        }
+    }
+
+    return "application/octet-stream"; // Default MIME type
 
 }
