@@ -17,6 +17,6 @@ dev:
 	docker-compose run --rm dev
 
 run:
-	docker-compose run --rm dev ./build/main
+	docker-compose run --rm -p 8080:8080 dev ./build/main
 
 .PHONY: all clean
