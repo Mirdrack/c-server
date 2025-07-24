@@ -15,7 +15,7 @@ int main() {
     int bind_operation;
 
     // Create server sockets
-    if((server_fd = socket(AF_INET, SOCK_STREAM, 0))) {
+    if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         perror("Server socket creation failed");
         exit(EXIT_FAILURE);
     }
