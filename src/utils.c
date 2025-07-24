@@ -66,6 +66,9 @@ void build_http_response(const char *file_name,
              "\r\n",
              mime_type);
 
+    printf("D: %s\n", file_ext);
+    printf("D: %s\n", file_name);
+
 
     // If file doesn't exist, response with a 404
     int file_fd = open(file_name, O_RDONLY);
