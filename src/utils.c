@@ -6,6 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 #define BUFFER_SIZE 104857600
 
@@ -26,7 +27,7 @@ void *handle_client(void *arg) {
         if (regexec(&regex, buffer, 2, matches, 0) == 0)
         {
             // Extract filename from request and decode URL
-            buffer[matches[1].rm_eo];
+            buffer[matches[1].rm_eo] = '\0';
             const char *url_encoded_file_name = buffer + matches[1].rm_so;
             char *file_name = url_decode(url_encoded_file_name);
 
@@ -57,8 +58,15 @@ void build_http_response(const char *file_name,
     char *response,
     size_t *response_len) {
 
-    // Build HTTP Header
+    // Build HTTP header
     const char *mime_type = get_mime_type(file_ext);
+    char *header = (char *)malloc(BUFFER_SIZE * sizeof(char));
+    snprintf(header, BUFFER_SIZE,
+             "HTTP/1.1 200 OK\r\n"
+             "Content-Type: %s\r\n"
+             "\r\n",
+             mime_type);
+
 
     // If file doesn't exist, response with a 404
     int file_fd = open(file_name, O_RDONLY);
@@ -69,7 +77,28 @@ void build_http_response(const char *file_name,
             "\r\n"
             "404 Not Found");
         *response_len = strlen(response);
+        return; // Function must return void
     }
+
+    // Get file size for Content-Length
+    struct stat file_stat;
+    fstat(file_fd, &file_stat);
+    // off_t file_size = file_stat.st_size;
+
+    // Copy header to response buffer
+    *response_len = 0;
+    memcpy(response, header, strlen(header));
+    *response_len = strlen(header);
+
+    // Copy file to response buffer
+    ssize_t bytes_read;
+    while ((bytes_read = read(file_fd,
+        response + *response_len,
+        BUFFER_SIZE - *response_len)) > 0) {
+        *response_len += bytes_read;
+    }
+    free(header);
+    close(file_fd);
 }
 
 
@@ -131,5 +160,4 @@ const char *get_mime_type(const char *file_ext) {
     }
 
     return "application/octet-stream"; // Default MIME type
-
 }
