@@ -15,7 +15,7 @@ int main() {
     int bind_operation;
 
     // Create server sockets
-    if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         perror("Server socket creation failed");
         exit(EXIT_FAILURE);
     }
@@ -26,8 +26,7 @@ int main() {
     server_addr.sin_port = htons(PORT);
 
     bind_operation = bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr));
-    if (bind_operation < 0)
-    {
+    if (bind_operation < 0) {
         perror("Binding socket to port failed");
     }
 
@@ -46,8 +45,7 @@ int main() {
 
         // Accept client connection
         *client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_addr_len);
-        if (*client_fd < 0)
-        {
+        if (*client_fd < 0) {
             perror("Accept failed");
             continue;
         }

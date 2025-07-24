@@ -24,8 +24,7 @@ void *handle_client(void *arg) {
         regcomp(&regex, "^GET /([^ ]*) HTTP/1", REG_EXTENDED);
         regmatch_t matches[2];
 
-        if (regexec(&regex, buffer, 2, matches, 0) == 0)
-        {
+        if (regexec(&regex, buffer, 2, matches, 0) == 0) {
             // Extract filename from request and decode URL
             buffer[matches[1].rm_eo] = '\0';
             const char *url_encoded_file_name = buffer + matches[1].rm_so;
@@ -117,7 +116,6 @@ char *url_decode(const char *src) {
         else {
             decoded[decoded_len++] = src[i];
         }
-
     }
 
     // Add null terminator to the decoded string
