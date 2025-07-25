@@ -1,5 +1,6 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude
+CC ?= gcc
+CFLAGS = -Wall -Wextra -g -pthread -Iinclude
+LDFLAGS = -pthread
 SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
 BIN = build/main
@@ -8,7 +9,7 @@ all: $(BIN)
 
 $(BIN): $(OBJ)
 	@mkdir -p build
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
 	rm -rf build src/*.o
