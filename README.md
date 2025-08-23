@@ -19,3 +19,6 @@ Runs the project in a development mode
 ```bash
 make run
 ```
+
+## Contribuiting Guidelines
+You can find how to contribuite to the porject [here](CONTRIBUTING.md).
