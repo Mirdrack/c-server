@@ -2,13 +2,11 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "utils.h"
+#include "server.h"
 #include <signal.h>
 #include <unistd.h>
-
-#include <string.h> // For memset
+#include <string.h>
 #include <errno.h>
-
 
 #define PORT 8080
 
