@@ -1,6 +1,7 @@
 # Contributing Guidelines
 
 Thank you for considering contributing to this project!
+
 This document explains how to set up your environment, follow our coding style, and submit contributions.
 
 ---
@@ -30,6 +31,7 @@ make test
 
 ## 📝 Commit Messages
 We use the [Conventional Commits](https://www.conventionalcommits.org/) specification.
+
 This makes commits more readable and allows automatic changelog generation.
 
 Format:
@@ -159,5 +161,6 @@ make test
 
 
 ## 🏷️ Versioning
-We follow [Semantic Versioning](https://semver.org/)
+We follow [Semantic Versioning](https://semver.org/).
+
 Breaking changes must be documented and reflected in the major version.
