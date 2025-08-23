@@ -31,7 +31,7 @@ char *url_decode(const char *src) {
 
 
 const char *get_file_extention(const char *filename) {
-    const char *dot = strchr(filename, '.');
+    const char *dot = strrchr(filename, '.');
     if (!dot || dot == filename) {
         return "";
     }
