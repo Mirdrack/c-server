@@ -1,5 +1,6 @@
 services:
   build-c-server:
+    image: c-server:latest
     build: .
     volumes:
       - .:/app
@@ -13,3 +14,15 @@ services:
       - .:/app
     working_dir: /app
     command: make
+
+  check:
+    image: c-server:dev
+    build:
+      context: .
+      target: builder
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: [make, test]
