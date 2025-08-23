@@ -4,6 +4,11 @@ FROM gcc:13 AS builder
 # Set working directory
 WORKDIR /app
 
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends check && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Copy source files
 COPY include/ include/
 COPY src/ src/
