@@ -7,7 +7,7 @@ WORKDIR /app
 # Install dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    check clang-format && \
+    check clang-format clang-tidy && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy source files
