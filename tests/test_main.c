@@ -1,9 +1,10 @@
 #include <check.h>
 #include <stdlib.h>
 
-Suite* utils_suite(void);
+Suite *utils_suite(void);
 
-int main(void) {
+int main(void)
+{
     int number_failed;
     SRunner *sr;
 
@@ -14,5 +15,3 @@ int main(void) {
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
-
-

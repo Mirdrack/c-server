@@ -1,24 +1,27 @@
-#include <stdio.h>
-#include <netinet/in.h>
-#include <stdlib.h>
-#include <pthread.h>
 #include "server.h"
-#include <signal.h>
-#include <unistd.h>
-#include <string.h>
 #include <errno.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #define PORT 8080
 
 volatile sig_atomic_t keep_running = 1;
 
-void handle_signal(int sig) {
-    if (sig == SIGINT || sig == SIGTERM) {
+void handle_signal(int sig)
+{
+    if (sig == SIGINT || sig == SIGTERM)
+    {
         keep_running = 0;
     }
 }
 
-void setup_signal_handler() {
+void setup_signal_handler()
+{
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
     sa.sa_handler = handle_signal;
@@ -27,7 +30,8 @@ void setup_signal_handler() {
     sigaction(SIGTERM, &sa, NULL);
 }
 
-int main() {
+int main()
+{
     setup_signal_handler();
 
     printf("Hello C server...\n");
@@ -37,7 +41,8 @@ int main() {
     int bind_operation;
 
     // Create server sockets
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
         perror("Server socket creation failed");
         exit(EXIT_FAILURE);
     }
@@ -48,18 +53,21 @@ int main() {
     server_addr.sin_port = htons(PORT);
 
     bind_operation = bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr));
-    if (bind_operation < 0) {
+    if (bind_operation < 0)
+    {
         perror("Binding socket to port failed");
     }
 
     // Listen for connections
-    if (listen(server_fd, 10) < 0) {
+    if (listen(server_fd, 10) < 0)
+    {
         perror("Listen for connections failed");
         exit(EXIT_FAILURE);
     }
 
     // Hadling connections
-    while (keep_running) {
+    while (keep_running)
+    {
         // Client info
         struct sockaddr_in client_addr;
         socklen_t client_addr_len = sizeof(client_addr);
@@ -67,10 +75,14 @@ int main() {
 
         // Accept client connection
         *client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_addr_len);
-        if (*client_fd < 0) {
-            if (errno == EINTR) {
+        if (*client_fd < 0)
+        {
+            if (errno == EINTR)
+            {
                 // Interrupted by signal, check keep_running
-            } else {
+            }
+            else
+            {
                 perror("Accept failed");
             }
             free(client_fd);
