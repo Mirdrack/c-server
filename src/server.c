@@ -39,6 +39,7 @@ void build_http_response(const char *file_name, const char *file_ext, char *resp
                  "\r\n"
                  "404 Not Found");
         *response_len = strlen(response);
+        free(header);
         return; // Function must return void
     }
 
