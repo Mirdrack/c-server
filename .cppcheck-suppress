@@ -1,0 +1,4 @@
+# Common suppressions for noisy or non-critical warnings in C projects
+
+# Ignore missing system headers (cppcheck is really bad at finding standard include headers)
+missingIncludeSystem
