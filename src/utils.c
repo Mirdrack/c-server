@@ -16,7 +16,7 @@ char *url_decode(const char *src)
     {
         if (src[i] == '%' && i + 2 < src_len)
         {
-            int hex_val;
+            unsigned int hex_val;
             sscanf(src + i + 1, "%2x", &hex_val);
             decoded[decoded_len++] = hex_val;
         }
