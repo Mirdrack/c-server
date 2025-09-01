@@ -47,15 +47,15 @@ void log_message(log_level_t level, const char *file, int line, const char *fmt,
     char message[1024];
     va_list args;
     va_start(args, fmt);
-    vsnprintf(message, sizeof(message), fmt, args);
+    vsnprintf_s(message, sizeof(message), fmt, args);
     va_end(args);
 
     FILE *out = (level == LOG_WARN || level == LOG_ERROR) ? stderr : stdout;
 
-    fprintf(out,
-            "{ \"timestamp\": \"%s\", \"level\": \"%s\", \"file\": \"%s\", \"line\": %d, "
-            "\"message\": \"%s\" }\n",
-            timestamp, level_to_str(level), file, line, message);
+    fprintf_s(out,
+              "{ \"timestamp\": \"%s\", \"level\": \"%s\", \"file\": \"%s\", \"line\": %d, "
+              "\"message\": \"%s\" }\n",
+              timestamp, level_to_str(level), file, line, message);
 
     fflush(out);
 }
