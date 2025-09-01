@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 Suite *utils_suite(void);
+Suite *logger_suite(void);
 
 int main(void)
 {
@@ -9,6 +10,8 @@ int main(void)
     SRunner *sr;
 
     sr = srunner_create(utils_suite());
+    srunner_add_suite(sr, logger_suite());
+
     srunner_run_all(sr, CK_NORMAL);
     number_failed = srunner_ntests_failed(sr);
     srunner_free(sr);
