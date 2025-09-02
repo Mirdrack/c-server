@@ -93,7 +93,7 @@ void *handle_client(void *arg)
 
             // Build HTTP Response
             char *response = (char *)malloc((size_t)BUFFER_SIZE * 2 * sizeof(char));
-            size_t response_len;
+            size_t response_len = 0;
             build_http_response(file_name, file_ext, response, &response_len);
             send(client_fd, response, response_len, 0);
 
