@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #define PORT 8080
+#define MAX_CONNECTIONS 10
 
 volatile sig_atomic_t keep_running = 1;
 
@@ -59,7 +60,7 @@ int main()
     }
 
     // Listen for connections
-    if (listen(server_fd, 10) < 0)
+    if (listen(server_fd, MAX_CONNECTIONS) < 0)
     {
         perror("Listen for connections failed");
         exit(EXIT_FAILURE);
