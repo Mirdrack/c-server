@@ -22,12 +22,12 @@ void handle_signal(int sig)
 
 void setup_signal_handler()
 {
-    struct sigaction sa;
-    memset(&sa, 0, sizeof(sa));
-    sa.sa_handler = handle_signal;
+    struct sigaction signal_action;
+    memset(&signal_action, 0, sizeof(signal_action));
+    signal_action.sa_handler = handle_signal;
     // Important: do NOT set SA_RESTART so syscalls are interrupted
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGINT, &signal_action, NULL);
+    sigaction(SIGTERM, &signal_action, NULL);
 }
 
 int main()
