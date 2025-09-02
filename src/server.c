@@ -12,6 +12,7 @@
 #include "utils.h"
 
 #define BUFFER_SIZE 104857600
+#define MAX_FILE_EXT_LEN 32
 
 void build_http_response(const char *file_name, const char *file_ext, char *response,
                          size_t *response_len)
@@ -87,7 +88,7 @@ void *handle_client(void *arg)
             char *file_name = url_decode(url_encoded_file_name);
 
             // Get file extention
-            char file_ext[32];
+            char file_ext[MAX_FILE_EXT_LEN];
             strcpy(file_ext, get_file_extention(file_name));
 
             // Build HTTP Response
