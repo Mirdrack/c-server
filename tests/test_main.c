@@ -6,10 +6,8 @@ Suite *logger_suite(void);
 
 int main(void)
 {
-    int number_failed;
-    SRunner *suite_runner;
-
-    suite_runner = srunner_create(utils_suite());
+    int number_failed = 0;
+    SRunner *suite_runner = srunner_create(utils_suite());
     srunner_add_suite(suite_runner, logger_suite());
 
     srunner_run_all(suite_runner, CK_NORMAL);
