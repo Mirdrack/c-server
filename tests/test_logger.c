@@ -107,13 +107,13 @@ END_TEST
 
 Suite *logger_suite(void)
 {
-    Suite *s = suite_create("Logger");
+    Suite *suite = suite_create("Logger");
     TCase *tc_core = tcase_create("Core");
 
     tcase_add_test(tc_core, test_info_log_goes_to_stdout);
     tcase_add_test(tc_core, test_error_log_goes_to_stderr);
     tcase_add_test(tc_core, test_log_level_filtering);
 
-    suite_add_tcase(s, tc_core);
-    return s;
+    suite_add_tcase(suite, tc_core);
+    return suite;
 }
