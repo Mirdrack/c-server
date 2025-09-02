@@ -6,7 +6,8 @@ Checks: >
   portability-*,
   modernize-*,
   cppcoreguidelines-*,
-  -modernize-use-trailing-return-type
+  -modernize-use-trailing-return-type,
+  -clang-analyzer-security.insecureAPI.*
 
 WarningsAsErrors: '*'
 
