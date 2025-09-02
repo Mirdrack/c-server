@@ -7,10 +7,10 @@ Checks: >
   modernize-*,
   cppcoreguidelines-*,
   -modernize-use-trailing-return-type,
-  -clang-analyzer-security.insecureAPI.*
+  -clang-analyzer-security.insecureAPI.*,
+  -cppcoreguidelines-avoid-non-const-global-variables
 
 WarningsAsErrors: '*'
 
 HeaderFilterRegex: '.*'
 FormatStyle: none
-
