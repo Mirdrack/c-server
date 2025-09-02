@@ -30,8 +30,8 @@ void set_log_level(log_level_t level)
 static void current_timestap(char *buffer, size_t size)
 {
     time_t now = time(NULL);
-    const struct tm *t = gmtime(&now); // UTC
-    strftime(buffer, size, "%Y-%m-%dT%H:%M:%SZ", t);
+    const struct tm *gm_time = gmtime(&now); // UTC
+    strftime(buffer, size, "%Y-%m-%dT%H:%M:%SZ", gm_time);
 }
 
 void log_message(log_level_t level, const char *file, int line, const char *fmt, ...)
