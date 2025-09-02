@@ -4,6 +4,16 @@
 #include <stdio.h>
 #include <time.h>
 
+enum
+{
+    TIMESTAMP_LEN = 32
+};
+
+enum
+{
+    LOG_MESSAGE_LEN = 1024
+};
+
 typedef enum
 {
     LOG_DEBUG,

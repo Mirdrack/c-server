@@ -9,24 +9,28 @@ char *url_decode(const char *src)
 {
     size_t src_len = strlen(src);
     char *decoded = malloc(src_len + 1);
+    if (!decoded)
+    {
+        return NULL;
+    }
+
     size_t decoded_len = 0;
 
-    // Decode %2 to hex
     for (size_t i = 0; i < src_len; i++)
     {
         if (src[i] == '%' && i + 2 < src_len)
         {
-            unsigned int hex_val;
-            sscanf(src + i + 1, "%2x", &hex_val);
-            decoded[decoded_len++] = hex_val;
+            unsigned int hex_val = 0;
+            if (sscanf(src + i + 1, "%2x", &hex_val) == 1)
+            {
+                decoded[decoded_len++] = (char)hex_val;
+                i += 2; // skip two hex digits
+                continue;
+            }
         }
-        else
-        {
-            decoded[decoded_len++] = src[i];
-        }
+        decoded[decoded_len++] = src[i];
     }
 
-    // Add null terminator to the decoded string
     decoded[decoded_len] = '\0';
     return decoded;
 }
