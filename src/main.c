@@ -36,12 +36,12 @@ int main()
 
     printf("Hello C server...\n");
 
-    int server_fd;
+    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in server_addr;
-    int bind_operation;
+    int bind_operation = -1; // Bind should change it to 0
 
     // Create server sockets
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    if (server_fd < 0)
     {
         perror("Server socket creation failed");
         exit(EXIT_FAILURE);
@@ -90,7 +90,7 @@ int main()
         }
 
         // Create new thread to handle the request
-        pthread_t thread_id;
+        pthread_t thread_id = {0};
         pthread_create(&thread_id, NULL, handle_client, (void *)client_fd);
         pthread_detach(thread_id);
     }
