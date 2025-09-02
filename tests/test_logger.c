@@ -25,18 +25,20 @@ static void redirect_streams(void)
 // Helper: read file content into string
 static char *read_file(const char *path)
 {
-    FILE *f = fopen(path, "r");
-    if (!f)
+    FILE *file = fopen(path, "r");
+    if (!file)
+    {
         return NULL;
-    fseek(f, 0, SEEK_END);
-    long size = ftell(f);
-    rewind(f);
+    }
+    fseek(file, 0, SEEK_END);
+    long size = ftell(file);
+    rewind(file);
 
-    char *buf = malloc(size + 1);
-    fread(buf, 1, size, f);
-    buf[size] = '\0';
-    fclose(f);
-    return buf;
+    char *buffer = malloc(size + 1);
+    fread(buffer, 1, size, file);
+    buffer[size] = '\0';
+    fclose(file);
+    return buffer;
 }
 
 // --- Tests ---
