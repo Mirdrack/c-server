@@ -41,10 +41,11 @@ void log_message(log_level_t level, const char *file, int line, const char *fmt,
         return; // Skip logs below current level
     }
 
-    char timestamp[32];
+    char timestamp[TIMESTAMP_LEN];
     current_timestap(timestamp, sizeof(timestamp));
 
-    char message[1024];
+    char message[LOG_MESSAGE_LEN];
+
     va_list args;
     va_start(args, fmt);
     vsnprintf(message, sizeof(message), fmt, args);
