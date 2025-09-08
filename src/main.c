@@ -8,8 +8,15 @@
 #include <string.h>
 #include <unistd.h>
 
-#define PORT 8080
-#define MAX_CONNECTIONS 10
+enum
+{
+    PORT = 8080
+};
+
+enum
+{
+    MAX_CONNECTIONS = 10
+};
 
 volatile sig_atomic_t keep_running = 1;
 
