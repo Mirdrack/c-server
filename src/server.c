@@ -11,15 +11,13 @@
 
 #include "utils.h"
 
-#define BUFFER_SIZE 104857600
-
 void build_http_response(const char *file_name, const char *file_ext, char *response,
                          size_t *response_len)
 {
 
     // Build HTTP header
     const char *mime_type = get_mime_type(file_ext);
-    char *header = (char *)malloc(BUFFER_SIZE * sizeof(char));
+    char *header = (char *)malloc((size_t)BUFFER_SIZE * sizeof(char));
     snprintf(header, BUFFER_SIZE,
              "HTTP/1.1 200 OK\r\n"
              "Content-Type: %s\r\n"
@@ -54,7 +52,7 @@ void build_http_response(const char *file_name, const char *file_ext, char *resp
     *response_len = strlen(header);
 
     // Copy file to response buffer
-    ssize_t bytes_read;
+    ssize_t bytes_read = 0;
     while ((bytes_read = read(file_fd, response + *response_len, BUFFER_SIZE - *response_len)) > 0)
     {
         *response_len += bytes_read;
@@ -68,7 +66,7 @@ void *handle_client(void *arg)
     printf("New client thread!\n");
 
     int client_fd = *((int *)arg);
-    char *buffer = (char *)malloc(BUFFER_SIZE * sizeof(char));
+    char *buffer = (char *)malloc((size_t)BUFFER_SIZE * sizeof(char));
 
     ssize_t bytes_received = recv(client_fd, buffer, BUFFER_SIZE, 0);
 
@@ -87,12 +85,12 @@ void *handle_client(void *arg)
             char *file_name = url_decode(url_encoded_file_name);
 
             // Get file extention
-            char file_ext[32];
+            char file_ext[MAX_FILE_EXT_LEN];
             strcpy(file_ext, get_file_extention(file_name));
 
             // Build HTTP Response
-            char *response = (char *)malloc(BUFFER_SIZE * 2 * sizeof(char));
-            size_t response_len;
+            char *response = (char *)malloc((size_t)BUFFER_SIZE * 2 * sizeof(char));
+            size_t response_len = 0;
             build_http_response(file_name, file_ext, response, &response_len);
             send(client_fd, response, response_len, 0);
 

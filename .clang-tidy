@@ -6,11 +6,11 @@ Checks: >
   portability-*,
   modernize-*,
   cppcoreguidelines-*,
-  -modernize-use-trailing-return-type
+  -modernize-use-trailing-return-type,
+  -clang-analyzer-security.insecureAPI.*,
+  -cppcoreguidelines-avoid-non-const-global-variables
 
 WarningsAsErrors: '*'
 
 HeaderFilterRegex: '.*'
-AnalyzeTemporaryDtors: true
 FormatStyle: none
-

@@ -8,7 +8,15 @@
 #include <string.h>
 #include <unistd.h>
 
-#define PORT 8080
+enum
+{
+    PORT = 8080
+};
+
+enum
+{
+    MAX_CONNECTIONS = 10
+};
 
 volatile sig_atomic_t keep_running = 1;
 
@@ -22,12 +30,12 @@ void handle_signal(int sig)
 
 void setup_signal_handler()
 {
-    struct sigaction sa;
-    memset(&sa, 0, sizeof(sa));
-    sa.sa_handler = handle_signal;
+    struct sigaction signal_action;
+    memset(&signal_action, 0, sizeof(signal_action));
+    signal_action.sa_handler = handle_signal;
     // Important: do NOT set SA_RESTART so syscalls are interrupted
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGINT, &signal_action, NULL);
+    sigaction(SIGTERM, &signal_action, NULL);
 }
 
 int main()
@@ -36,12 +44,12 @@ int main()
 
     printf("Hello C server...\n");
 
-    int server_fd;
+    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in server_addr;
-    int bind_operation;
+    int bind_operation = -1; // Bind should change it to 0
 
     // Create server sockets
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    if (server_fd < 0)
     {
         perror("Server socket creation failed");
         exit(EXIT_FAILURE);
@@ -59,7 +67,7 @@ int main()
     }
 
     // Listen for connections
-    if (listen(server_fd, 10) < 0)
+    if (listen(server_fd, MAX_CONNECTIONS) < 0)
     {
         perror("Listen for connections failed");
         exit(EXIT_FAILURE);
@@ -90,7 +98,7 @@ int main()
         }
 
         // Create new thread to handle the request
-        pthread_t thread_id;
+        pthread_t thread_id = {0};
         pthread_create(&thread_id, NULL, handle_client, (void *)client_fd);
         pthread_detach(thread_id);
     }

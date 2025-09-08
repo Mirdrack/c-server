@@ -46,12 +46,9 @@ END_TEST
 
 Suite *utils_suite(void)
 {
-    Suite *s;
-    TCase *tc_core;
+    Suite *suite = suite_create("FileUtils");
+    TCase *tc_core = tcase_create("Core");
 
-    s = suite_create("FileUtils");
-
-    tc_core = tcase_create("Core");
     tcase_add_test(tc_core, test_simple_extension);
     tcase_add_test(tc_core, test_multiple_dots);
     tcase_add_test(tc_core, test_no_extension);
@@ -60,6 +57,6 @@ Suite *utils_suite(void)
     tcase_add_test(tc_core, test_only_dots);
     tcase_add_test(tc_core, test_empty_string);
 
-    suite_add_tcase(s, tc_core);
-    return s;
+    suite_add_tcase(suite, tc_core);
+    return suite;
 }
