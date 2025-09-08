@@ -1,6 +1,8 @@
 #include "logger.h"
 #include <stdarg.h>
 #include <string.h>
+#include <stdio.h>
+#include <time.h>
 
 static log_level_t current_level = LOG_INFO;
 
